@@ -107,7 +107,7 @@ Route::get('/', function () {
     return inertia::render('Dashboard');
 });
 // ********** Super Admin Routes *********
-Route::group(['prefix' => 'superadmin','middleware'=>['web','isSuperAdmin']],function(){
+Route::group(['prefix' => 'super-admin','middleware'=>['web','isSuperAdmin']],function(){
     Route::get('/dashboard',[SuperAdminDashboardController::class,'dashboard']);
 
     Route::get('/users',[SuperAdminDashboardController::class,'users'])->name('superAdminUsers');
