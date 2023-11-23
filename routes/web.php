@@ -11,6 +11,7 @@ use App\Http\Controllers\Teacher\TeacherDashboardController;
 use App\Http\Controllers\Student\StudentDashboardController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,11 +41,19 @@ Route::get('/', function () {
 
 
 
-// Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified','role:student'])->group(function () {
-//     Route::get('/home', function () {
+// Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
+//     Route::get('/', function () {
 //         return Inertia::render('Dashboard');
 //     })->name('dashboard');
+
 // });
+
+// Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified','role:admin'])->group(function () {
+//     Route::get('/admin', function () {
+//         return Inertia::render('Admin/Dashboard');
+//     })->name('dashboard');
+// });
+
 
 
 // Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified','role:admin'])->group(function () {
@@ -59,7 +68,46 @@ Route::get('/', function () {
 // });
 
 // ********** Super Admin Routes *********
-Route::group(['prefix' => 'super-admin','middleware'=>['web','SuperAdmin']],function(){
+
+// Route::inertia('/super-admin/dashboard', 'Superadmin/Dashboard', [
+//     'controller' => SuperAdminDashboardController::class,
+//     // 'method' => 'dashboard',
+// ])->name('superadmin.dashboard');
+
+// Route::inertia('/super-admin/users', 'Superadmin/Users', [
+//     'controller' => SuperAdminDashboardController::class,
+//     // 'method' => 'users',
+// ])->name('users');
+
+// Route::inertia('/super-admin/manage-role', 'ManageRole', [
+//     'controller' => SuperAdminDashboardController::class,
+//     // 'method' => 'manageRole',
+// ])->name('manageRole');
+
+// Route::post('/super-admin/update-role', [SuperAdminDashboardController::class, 'updateRole'])
+//     ->name('updateRole');
+
+// Route::inertia('/admin/dashboard', 'Admin/Dashboard', [
+//     'controller' => AdminDashboardController::class,
+//     // 'method' => 'dashboard',
+// ])->name('admin.dashboard');
+
+// Route::inertia('/teacher/dashboard', 'Teacher/Dashboard', [
+//     'controller' => TeacherDashboardController::class,
+//     // 'method' => 'dashboard',
+// ])->name('teacher.dashboard');
+
+// Route::inertia('/student/dashboard', 'Student/Dashboard', [
+//     'controller' => StudentDashboardController::class,
+//     // 'method' => 'dashboard',
+// ])->name('student.dashboard');
+
+Route::get('/', function () {
+    // return view('welcome');
+    return inertia::render('Dashboard');
+});
+// ********** Super Admin Routes *********
+Route::group(['prefix' => 'superadmin','middleware'=>['web','isSuperAdmin']],function(){
     Route::get('/dashboard',[SuperAdminDashboardController::class,'dashboard']);
 
     Route::get('/users',[SuperAdminDashboardController::class,'users'])->name('superAdminUsers');
@@ -68,18 +116,16 @@ Route::group(['prefix' => 'super-admin','middleware'=>['web','SuperAdmin']],func
 });
 
 // ********** Admin Routes *********
-Route::group(['prefix' => 'admin','middleware'=>['web','Admin']],function(){
+Route::group(['prefix' => 'admin','middleware'=>['web','isAdmin']],function(){
     Route::get('/dashboard',[AdminDashboardController::class,'dashboard']);
 });
 
 // ********** Teacher Routes *********
-Route::group(['middleware'=>['web','Teacher']],function(){
-    Route::get('/dashboard',[TeacherDashboardController::class,'dashboard']);
+Route::group(['prefix' => 'teacher','middleware'=>['web','isTeacher']],function(){
+    Route::get('/dashboard',[AdminDashboardController::class,'dashboard']);
 });
 
 // ********** Student Routes *********
-Route::group(['middleware'=>['web','Student']],function(){
+Route::group(['middleware'=>['web','isStudent']],function(){
     Route::get('/dashboard',[StudentDashboardController::class,'dashboard']);
 });
-
-

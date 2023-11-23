@@ -80,9 +80,6 @@ class RolesAndPermissionsSeeder extends Seeder
             'delete-role',
         ];
         $teacher_permissions = [
-            'create-course',
-            'edit-course',
-            'delete-course',
             'create-question',
             'edit-question',
             'delete-question',
@@ -96,7 +93,23 @@ class RolesAndPermissionsSeeder extends Seeder
             'delete-answer',
         ];
 
-        $permissions = [$admin_permissions, $teacher_permissions, $student_permissions];
+        $permissions = [
+            'create-course',
+            'edit-course',
+            'delete-course',
+            'create-question',
+            'edit-question',
+            'delete-question',
+            'create-answer',
+            'edit-answer',
+            'delete-answer',
+            'create-user',
+            'edit-user',
+            'delete-user',
+            'create-role',
+            'edit-role',
+            'delete-role',
+        ];
 
         foreach($permissions as $permission){
             foreach($permission as $p){
@@ -109,12 +122,12 @@ class RolesAndPermissionsSeeder extends Seeder
         foreach($teacher_permissions as $teacher_permission){
             Permission::create(['name' => $teacher_permission]);
         }
-        foreach($student_permissions as $studen_permission){
+        foreach($student_permissions as $student_permission){
             Permission::create(['name' => $student_permission]);
         }
         
         // NOW WE ASSIGN PERMISSIONS TO ROLES
-        
+        $super_admin_role->syncPermissions(Permission::all());        
         $admin_role->syncPermissions($admin_permissions);
         $teacher_role->syncPermissions($teacher_permissions);
         $student_role->syncPermissions($student_permissions);

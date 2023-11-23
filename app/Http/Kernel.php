@@ -71,9 +71,9 @@ class Kernel extends HttpKernel
         // 'teacher' => \App\Http\Middleware\CheckRoles::class,
         // 'student' => \App\Http\Middleware\CheckRoles::class,
 
-        'superadmin' => \App\Http\Middleware\SuperAdminAuthentication::class,
-        'admin' => \App\Http\Middleware\AdminAuthentication::class,
-        'teacher' => \App\Http\Middleware\TeacherAuthentication::class,
-        'student' => \App\Http\Middleware\StudentAuthentication::class,
+        'isSuperAdmin' => \App\Http\Middleware\SuperAdminAuthentication::class,
+        'isAdmin' => \App\Http\Middleware\AdminAuthentication::class,
+        'isTeacher' => \App\Http\Middleware\TeacherAuthentication::class,
+        'isStudent' => \App\Http\Middleware\StudentAuthentication::class,
     ];
 }
